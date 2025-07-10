@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Str;
 
@@ -16,6 +16,7 @@ public function login(Request $request)
     $user = User::firstOrCreate(
         ['email' => $request->email],
         [
+            'role' => $request->role ?? 'student', // default role is 'student'
             'name' => $request->name ?? 'Guest',
             'password' => bcrypt($request->password ?: Str::random(10)) // store fake hashed password
         ]
